@@ -26,8 +26,11 @@ public class Spider {
      *
      * @param url - The starting point of the spider
      * @param searchWord - The word or string that you are searching for
+     * @param maxPagesToSearch
+     * @param isBreakWhenSuccess
+     * @return 
      */
-    public  Set<String> search(String url, String searchWord,int maxPagesToSearch) {
+    public  Set<String> search(String url, String searchWord,int maxPagesToSearch,boolean isBreakWhenSuccess) {
      Set<String> matchedPatterns=new HashSet<>();
      
         url=convertSpecialCharsToNormal(url);
@@ -44,11 +47,18 @@ public class Spider {
             
             if (isHTML) {
                Set<String> matchedPatternsPart = leg.searchForWord(searchWord);
+                System.out.println(matchedPatternsPart);
                 if (matchedPatternsPart.size()>0) {
                     System.out.println(String.format("**Success** Word %s found at %s", searchWord, currentUrl));
                    // successPages.add(currentUrl);
                    matchedPatterns.addAll(matchedPatternsPart);
-                    break;
+                   if(!isBreakWhenSuccess){
+                       break;
+                   }
+                   else{
+                       continue;
+                   }
+                    
                 }
                 
                 this.pagesToVisit.addAll(leg.getLinks());

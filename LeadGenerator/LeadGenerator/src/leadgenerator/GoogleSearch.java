@@ -12,6 +12,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -21,11 +22,11 @@ import java.util.List;
 public class GoogleSearch {
 
     public List<URL> getGoogleSearchLinks(String searchKeyPhrase,int startPage,int endPage) throws IOException {
-        List<URL> links=null;
+        List<URL> links=new LinkedList<>();
         URL url = null;
 
         //maximum google results is 100
-        for (int i = 0; i < endPage; i +=10) {
+        for (int i = startPage; i < endPage; i +=10) {
             // Encode the command-line arguments as a Google search query.
             url = encodeGoogleQuery(searchKeyPhrase, i);
 
@@ -34,7 +35,7 @@ public class GoogleSearch {
             String html = downloadString(url);
 
             // Parse and display the links.
-            links = parseGoogleLinks(html);
+            links.addAll(parseGoogleLinks(html));
         }
         return links;
     }
