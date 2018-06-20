@@ -45,7 +45,7 @@ public class LeadGenerator {
 //            NameRecongnizer nameRecongnizer=new NameRecongnizer();
 //            Set<String> names=nameRecongnizer.recongnizeNames(matchedPatterns);
             Set<String> names=new HashSet<>();
-            names.add("Rajeev Munasinghe");
+            names.add("Indika Lakmal");
             
 //            List<URL> calllinks=new LinkedList<>();
 //            Map<String,String> namePhone=new HashMap<>();
@@ -69,7 +69,7 @@ public class LeadGenerator {
             Map<String,String> nameEmail=new HashMap<>();
             for(String name:names){
                 searchKeyPhrase = "Email "+name;
-                emaillinks=googleSearch.getGoogleSearchLinks(searchKeyPhrase,0,140);
+                emaillinks=googleSearch.getGoogleSearchLinks(searchKeyPhrase,0,30);
                 String searchPatternForTP = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";    
                 Set<String> emailAddresses=webCrawl.crawlWeb(emaillinks, searchPatternForTP,1,false);
                 String multipleEmails="";
