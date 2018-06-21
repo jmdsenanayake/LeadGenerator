@@ -21,17 +21,18 @@ import java.util.List;
  */
 public class GoogleSearch {
 
-    public List<URL> getGoogleSearchLinks(String searchKeyPhrase,int startPage,int endPage) throws IOException {
+    public List<URL> getGoogleSearchLinks(String searchKeyPhrase,int endPage) throws IOException {
         List<URL> links=new LinkedList<>();
         URL url = null;
 
         //maximum google results is 100
-        for (int i = startPage; i < endPage; i +=10) {
+        for (int i = 0; i < endPage; i +=10) {
             // Encode the command-line arguments as a Google search query.
             url = encodeGoogleQuery(searchKeyPhrase, i);
 
             // Download the content from Google.
-            System.out.println("Downloading [" + url + "]...\n");
+            //System.out.println("Downloading [" + url + "]...\n");
+            OutputDisplayer.setTextinTextArea("Downloading [" + url + "]...\n");
             String html = downloadString(url);
 
             // Parse and display the links.
@@ -78,9 +79,8 @@ public class GoogleSearch {
      * @throws IOException if there is an error downloading the content.
      */
     private static String downloadString(final URL url) throws IOException {
-        final String agent = "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US)";
         final URLConnection connection = url.openConnection();
-        connection.setRequestProperty("User-Agent", agent);
+        connection.setRequestProperty("User-Agent", Configurations.USER_AGENT);
         final InputStream stream = connection.getInputStream();
         
         
@@ -134,7 +134,8 @@ public class GoogleSearch {
                 urlText = urlText.replaceAll("&quot;", "\"");
                 final URL url = new URL(urlText);
                 links.add(url);
-                System.out.println(urlText);
+                OutputDisplayer.setTextinTextArea(urlText);
+                //System.out.println(urlText);
                 index = urlEnd + token3.length();
             }
 

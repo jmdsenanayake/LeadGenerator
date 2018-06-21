@@ -19,7 +19,8 @@ public class WebCrawl {
     public Set<String> crawlWeb(List<URL> links,String searchPattern,int maxPageSize,boolean isBreakWhenSuccess) {
         Set<String> matchedPatterns = new HashSet<>();
         for (URL link : links) {
-            System.out.println(link);
+            OutputDisplayer.setTextinTextArea(link.toString());
+           // System.out.println(link);
             Spider spider = new Spider();
             matchedPatterns.addAll(spider.search(link.toString(), searchPattern,maxPageSize,isBreakWhenSuccess));         
         }

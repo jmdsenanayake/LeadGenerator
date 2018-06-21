@@ -47,12 +47,12 @@ public class Spider {
             
             if (isHTML) {
                Set<String> matchedPatternsPart = leg.searchForWord(searchWord);
-                System.out.println(matchedPatternsPart);
                 if (matchedPatternsPart.size()>0) {
-                    System.out.println(String.format("**Success** Word %s found at %s", searchWord, currentUrl));
+                    OutputDisplayer.setTextinTextArea("**Success** Word "+searchWord+" found at "+currentUrl);
+                    //System.out.println(String.format("**Success** Word %s found at %s", searchWord, currentUrl));
                    // successPages.add(currentUrl);
                    matchedPatterns.addAll(matchedPatternsPart);
-                   if(!isBreakWhenSuccess){
+                   if(isBreakWhenSuccess){
                        break;
                    }
                    else{
@@ -70,7 +70,8 @@ public class Spider {
             }
 
         }
-        System.out.println("\n**Done** Visited " + this.pagesVisited.size() + " web page(s)");
+        OutputDisplayer.setTextinTextArea("\n**Done** Visited " + this.pagesVisited.size() + " web page(s)");
+        //System.out.println("\n**Done** Visited " + this.pagesVisited.size() + " web page(s)");
         return matchedPatterns;
     }
 

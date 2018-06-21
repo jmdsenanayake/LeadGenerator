@@ -23,10 +23,7 @@ import org.jsoup.select.Elements;
  * @author Janaka_5977
  */
 public class SpiderLeg {
-    // We'll use a fake USER_AGENT so the web server thinks the robot is a normal web browser.
-
-    //private static final String USER_AGENT= "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.112 Safari/535.1";
-    private static final String USER_AGENT = "Mozilla/5.0 (compatible; Googlebot/2.1";
+    
     private List<String> links = new LinkedList<>();
     private Document htmlDocument;
 
@@ -40,20 +37,25 @@ public class SpiderLeg {
      */
     public boolean crawl(String url) {
         try {
-            Connection connection = Jsoup.connect(url).userAgent(USER_AGENT);
+            Connection connection = Jsoup.connect(url).userAgent(Configurations.USER_AGENT);
             Document htmlDocument = connection.get();
             this.htmlDocument = htmlDocument;
             if (connection.response().statusCode() == 200) // 200 is the HTTP OK status code
             // indicating that everything is great.
             {
-                System.out.println("\n**Visiting** Received web page at " + url);
-
-                if (!connection.response().contentType().contains("text/html")) {
-                    System.out.println("**Failure** Retrieved something other than HTML");
+                OutputDisplayer.setTextinTextArea("\n**Visiting** Received web page at " + url);
+                //System.out.println("\n**Visiting** Received web page at " + url);
+                
+                String contentType = connection.response().contentType();   
+                boolean isAcceptablePage=contentType!=null && contentType.contains("text/html");
+                if (!isAcceptablePage) {
+                    OutputDisplayer.setTextinTextArea("**Failure** Retrieved something other than HTML");
+                    //System.out.println("**Failure** Retrieved something other than HTML");
                     return false;
                 }
                 Elements linksOnPage = htmlDocument.select("a[href]");
-                System.out.println("Found (" + linksOnPage.size() + ") links");
+                OutputDisplayer.setTextinTextArea("Found (" + linksOnPage.size() + ") links");
+                //System.out.println("Found (" + linksOnPage.size() + ") links");
                 if (linksOnPage.size() == 0) {
                     return false;
                 }
@@ -83,9 +85,11 @@ public class SpiderLeg {
         Set<String> matchedPatterns = new HashSet<>();
         // Defensive coding. This method should only be used after a successful crawl.
         if (this.htmlDocument == null) {
-            System.out.println("ERROR! Call crawl() before performing analysis on the document");
+            OutputDisplayer.setTextinTextArea("ERROR! Call crawl() before performing analysis on the document");
+            //System.out.println("ERROR! Call crawl() before performing analysis on the document");
         } else {
-            System.out.println("Searching for the word " + searchWord + "...");
+            OutputDisplayer.setTextinTextArea("Searching for the word " + searchWord + "...");
+            //System.out.println("Searching for the word " + searchWord + "...");
             String bodyText = this.htmlDocument.body().text();
             Pattern p = Pattern.compile(searchWord);
             Matcher m = p.matcher(bodyText);

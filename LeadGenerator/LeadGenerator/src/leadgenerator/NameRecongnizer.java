@@ -55,7 +55,9 @@ public class NameRecongnizer {
                     if(category.equalsIgnoreCase("PERSON")){
                         names.add(text);
                     }
-                    System.out.println(word + ":" + category);
+                    
+                    OutputDisplayer.setTextinTextArea(word+":"+category);
+                    //System.out.println(word + ":" + category);
                 }
             }
         }
