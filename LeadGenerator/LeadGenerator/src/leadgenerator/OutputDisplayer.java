@@ -87,7 +87,7 @@ public class OutputDisplayer extends javax.swing.JFrame {
                     .addComponent(searchKey, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchDepth, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jDesktopPane1Layout.setVerticalGroup(
@@ -110,12 +110,14 @@ public class OutputDisplayer extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/leadgenerator/hacking2.gif"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon("D:\\LeadGenerator\\LG\\LeadGenerator\\LeadGenerator\\hacking3.gif")); // NOI18N
         jLabel4.setText("jLabel4");
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
+        jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
+        jTextArea1.setWrapStyleWord(true);
         jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -123,10 +125,11 @@ public class OutputDisplayer extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jDesktopPane1)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 790, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE)))
                 .addGap(0, 700, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -161,8 +164,6 @@ public class OutputDisplayer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        final Calendar start=Calendar.getInstance();
-        jTextArea1.setText("Process Started @ "+start.getTime()+"\n");
         String searchKeyPhrase = this.searchKey.getText();
         String depth = searchDepth.getText();
         if (!searchKeyPhrase.isEmpty()) {
@@ -175,19 +176,14 @@ public class OutputDisplayer extends javax.swing.JFrame {
 
         Thread t = new Thread() {
             public void run() {
+                jTextArea1.append("##############################################\n");
                 jButton1.setEnabled(false);
                 jLabel4.setVisible(true);
                 jTextArea1.setVisible(true);
-                boolean isLeadsGenerated =Actions.generateLeads();
-                String message=isLeadsGenerated? "Process Completed": "Something went wrong. Please try again.!";
-                int messageType=isLeadsGenerated?JOptionPane.INFORMATION_MESSAGE:JOptionPane.ERROR_MESSAGE;
-                JOptionPane.showMessageDialog(null,  message, "Lead Generator",messageType);
-                final Calendar end=Calendar.getInstance();
-                jTextArea1.append("Process End @ "+end.getTime()+"\n");
-                jTextArea1.append("Duration : "+(end.getTimeInMillis()-start.getTimeInMillis())/1000+" Seconds.\n");
-                jTextArea1.append(message);
+                Actions.generateLeads();               
                 jLabel4.setVisible(false);
                 jButton1.setEnabled(true);
+                jTextArea1.append("##############################################\n");
             }
         };
         t.start();

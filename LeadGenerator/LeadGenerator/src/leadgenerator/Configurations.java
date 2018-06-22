@@ -29,7 +29,7 @@ public class Configurations {
     public static int linkDepthForPhone=1;
     
     // results depth
-    public static int googleURLSearchResultEnd=10;
+    public static int googleURLSearchResultEnd=1;
     public static int googleURLEmailResultEnd=100;
     public static int googleURLPhoneResultEnd=100;
 }
