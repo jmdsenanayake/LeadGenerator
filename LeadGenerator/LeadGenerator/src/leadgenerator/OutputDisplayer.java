@@ -110,7 +110,7 @@ public class OutputDisplayer extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel4.setIcon(new javax.swing.ImageIcon("D:\\LeadGenerator\\LG\\LeadGenerator\\LeadGenerator\\hacking3.gif")); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/leadgenerator/hacking3.gif"))); // NOI18N
         jLabel4.setText("jLabel4");
 
         jTextArea1.setEditable(false);
