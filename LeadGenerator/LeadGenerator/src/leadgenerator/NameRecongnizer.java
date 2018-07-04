@@ -22,7 +22,8 @@ public class NameRecongnizer {
     private  Set<String> names=new HashSet<>();
     
     public Set<String> recongnizeNames(Set<String> matchedPatterns){
-        String model="classifiers\\english.conll.4class.distsim.crf.ser.gz";
+        String model="classifiers\\english.muc.7class.distsim.crf.ser.gz";
+//        String model="classifiers\\english.conll.4class.distsim.crf.ser.gz";
         String serializedClassifier = model;
         CRFClassifier<CoreLabel> classifier = CRFClassifier.getClassifierNoExceptions(serializedClassifier);
         
