@@ -37,41 +37,65 @@ public class Actions {
             
             NameRecongnizer nameRecongnizer=new NameRecongnizer();
              Set<String> names=nameRecongnizer.recongnizeNames(matchedPatterns);
+             
+             
+             List<URL> linkedInLinks=new LinkedList<>();
+            for(String name:names){
+                String searchKey = name+" LinkedIn";
+                linkedInLinks=googleSearch.getGoogleSearchLinks(searchKey,Configurations.googleURLLinkeInResultEnd);
+                
+                for(URL linkedInLink:linkedInLinks){
+                    if(linkedInLink.toString().contains("https://lk/linkedin.com/in")){
+                        System.out.println(linkedInLink.toString());
+                    }
+                    else{
+                        linkedInLinks.remove(linkedInLink);
+                    }
+                }
+                
+//                Set<String> phoneNumbers=webCrawl.crawlWeb(linkedInLinks, Configurations.REGEX_PHONE,Configurations.linkDepthForPhone,false);
+//                sb.append(name).append(" matching Contact No(s):").append("\n");
+//                sb.append("--------------------------------------------------------------------------------------------------------------------------------------------\n");
+//                for(String phoneNumber:phoneNumbers){
+//                   sb.append("\t").append(phoneNumber).append("\n");
+//                }
+//                sb.append("\n");              
+            }   
 //Set<String> names=new HashSet<>();
 //names.add("Dasun Chathuranga");
 ////names.add("Rajeev Munasinghe");
            
-            List<URL> calllinks=new LinkedList<>();
-            for(String name:names){
-                String searchKey = name+" Contact Phone Call";
-                calllinks=googleSearch.getGoogleSearchLinks(searchKey,Configurations.googleURLPhoneResultEnd);
-                Set<String> phoneNumbers=webCrawl.crawlWeb(calllinks, Configurations.REGEX_PHONE,Configurations.linkDepthForPhone,false);
-                sb.append(name).append(" matching Contact No(s):").append("\n");
-                sb.append("--------------------------------------------------------------------------------------------------------------------------------------------\n");
-                for(String phoneNumber:phoneNumbers){
-                   sb.append("\t").append(phoneNumber).append("\n");
-                }
-                sb.append("\n");              
-            }            
-            List<URL> emaillinks = new LinkedList<>();
-            for (String name : names) {
-                String searchKey = name+" Contact Email";
-                emaillinks = googleSearch.getGoogleSearchLinks(searchKey, Configurations.googleURLEmailResultEnd);
-                Set<String> emailAddresses = webCrawl.crawlWeb(emaillinks, Configurations.REGEX_EMAIL, Configurations.linkDepthForPhone, false);
-
-                String firstName = name.split(" ")[0].toLowerCase();
-                String secondName = name.split(" ")[1].toLowerCase();
-                sb.append(name).append(" matching email addresses:").append("\n");
-                sb.append("--------------------------------------------------------------------------------------------------------------------------------------------\n");
-                for (String emailAddress : emailAddresses) {
-
-                    if (emailAddress.contains(firstName.toLowerCase()) || emailAddress.contains(secondName.toLowerCase()) || emailAddress.contains(firstName) || emailAddress.contains(secondName)) {
-                        sb.append("\t").append(emailAddress).append("\n");
-                    }
-                }
-                sb.append("\n");
-
-            }            
+////            List<URL> calllinks=new LinkedList<>();
+////            for(String name:names){
+////                String searchKey = name+" Contact Phone Call";
+////                calllinks=googleSearch.getGoogleSearchLinks(searchKey,Configurations.googleURLPhoneResultEnd);
+////                Set<String> phoneNumbers=webCrawl.crawlWeb(calllinks, Configurations.REGEX_PHONE,Configurations.linkDepthForPhone,false);
+////                sb.append(name).append(" matching Contact No(s):").append("\n");
+////                sb.append("--------------------------------------------------------------------------------------------------------------------------------------------\n");
+////                for(String phoneNumber:phoneNumbers){
+////                   sb.append("\t").append(phoneNumber).append("\n");
+////                }
+////                sb.append("\n");              
+////            }            
+////            List<URL> emaillinks = new LinkedList<>();
+////            for (String name : names) {
+////                String searchKey = name+" Contact Email";
+////                emaillinks = googleSearch.getGoogleSearchLinks(searchKey, Configurations.googleURLEmailResultEnd);
+////                Set<String> emailAddresses = webCrawl.crawlWeb(emaillinks, Configurations.REGEX_EMAIL, Configurations.linkDepthForPhone, false);
+////
+////                String firstName = name.split(" ")[0].toLowerCase();
+////                String secondName = name.split(" ")[1].toLowerCase();
+////                sb.append(name).append(" matching email addresses:").append("\n");
+////                sb.append("--------------------------------------------------------------------------------------------------------------------------------------------\n");
+////                for (String emailAddress : emailAddresses) {
+////
+////                    if (emailAddress.contains(firstName.toLowerCase()) || emailAddress.contains(secondName.toLowerCase()) || emailAddress.contains(firstName) || emailAddress.contains(secondName)) {
+////                        sb.append("\t").append(emailAddress).append("\n");
+////                    }
+////                }
+////                sb.append("\n");
+////
+////            }            
                 Calendar end=Calendar.getInstance();
                 sb.append("##############################################").append("\n");
                 sb.append("Process End @ ").append(end.getTime()).append("\n");
