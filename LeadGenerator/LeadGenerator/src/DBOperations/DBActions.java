@@ -5,15 +5,16 @@
  */
 package DBOperations;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -149,5 +150,49 @@ public class DBActions {
                 ex.printStackTrace();
             }
         }
+    }
+    
+    public static void getFinalDetails(int criteria_id){
+        Connection dBConnection = null;      
+        try {
+            dBConnection = new DBConnection().createConnection();
+        String sql="select c.criteria,l.leadname, d.designation, e.emailAddress, co.contactno from criteria c, leadnames l, designations d, emailaddress e, contactnos co where c.criteria_id=l.criteria_id and l.lead_id=d.lead_id and l.lead_id=e.lead_id and l.lead_id=co.lead_id and c.criteria_id="+criteria_id+"";
+        PreparedStatement ps=dBConnection.prepareStatement(sql);
+        ResultSet rs=ps.executeQuery(sql);
+        convertToCSV(rs,"AllDetails");   
+         } catch (ClassNotFoundException | SQLException |FileNotFoundException ex) {
+            System.err.println(ex.getMessage());
+            ex.printStackTrace();
+         }
+        finally{
+            try {
+                dBConnection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+     private static void convertToCSV(ResultSet rs,String filename) throws SQLException, FileNotFoundException {
+        PrintWriter csvWriter = new PrintWriter(new File(filename+".csv")) ;
+        ResultSetMetaData meta = rs.getMetaData() ; 
+        int numberOfColumns = meta.getColumnCount() ; 
+        String dataHeaders = "\"" + meta.getColumnName(1) + "\"" ; 
+        for (int i = 2 ; i < numberOfColumns + 1 ; i ++ ) { 
+                dataHeaders += ",\"" + meta.getColumnName(i).replaceAll("\"","\\\"") + "\"" ;
+        }
+        csvWriter.println(dataHeaders) ;
+        while (rs.next()) {
+            String row = "\"" + rs.getString(1).replaceAll("\"","\\\"") + "\""  ; 
+            for (int i = 2 ; i < numberOfColumns + 1 ; i ++ ) {
+                row += ",\"" + rs.getString(i).replaceAll("\"","\\\"") + "\"" ;
+            }
+        csvWriter.println(row) ;
+        }
+        csvWriter.close();
+    }
+     
+     public static void main(String[] args) {
+        getFinalDetails(1);
     }
 }

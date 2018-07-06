@@ -24,14 +24,14 @@ import java.util.concurrent.TimeUnit;
  * @author NDBDEV
  */
 public class Actions {
-
+    static int criterialId = 0;
     public static void generateLeads() {
         StringBuilder sb = new StringBuilder();
         final Calendar start = Calendar.getInstance();
          OutputDisplayer.setTextinTextArea2("Process Started @ "+start.getTime()+"\n");
         OutputDisplayer.setTextinTextArea2("##############################################\n");
         DBActions dBActions = new DBActions();
-        int criterialId = 0;
+        
         try {
             GoogleSearch googleSearch = new GoogleSearch();
             WebCrawl webCrawl = new WebCrawl();
@@ -202,6 +202,10 @@ public class Actions {
             out.write(ch);
         }
         return out.toString();
+    }
+    
+    public void downloadAsExcel(){
+    
     }
 
 }
