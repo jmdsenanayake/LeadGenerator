@@ -26,7 +26,6 @@ import java.util.concurrent.TimeUnit;
 public class Actions {
     static int criterialId = 0;
     public static void generateLeads() {
-        StringBuilder sb = new StringBuilder();
         final Calendar start = Calendar.getInstance();
          OutputDisplayer.setTextinTextArea2("Process Started @ "+start.getTime()+"\n");
         OutputDisplayer.setTextinTextArea2("##############################################\n");
@@ -53,19 +52,14 @@ public class Actions {
             for (String name : names) {
                 
                 OutputDisplayer.setTextinTextArea2("##############################################\n");
-                sb.append("##############################################").append("\n");
                 
                 OutputDisplayer.setTextinTextArea2("Name : "+name);
-                sb.append("Name : "+name);
                 
                 OutputDisplayer.setTextinTextArea2("____________________________\n");
-                sb.append("____________________________").append("\n");
                 
                 OutputDisplayer.setTextinTextArea2("********************************************\n");
-                 sb.append("********************************************").append("\n");
                  
                  OutputDisplayer.setTextinTextArea2("Possible Designations :\n");
-                sb.append("Possible Designations :").append("\n");
                 
                 Set<String> designations = new HashSet<>();
                 Set<String> phoneNumbers = new HashSet<>();
@@ -96,48 +90,33 @@ public class Actions {
                     }
                 }
                 
-                 
-                
                 for(String designation : designations){
                     OutputDisplayer.setTextinTextArea2("\t"+designation+"\n");
-                    sb.append("\t").append(designation).append("\n");
                     
                     dBActions.insertDesignationDetails(designation, leadID);
                 }
                 OutputDisplayer.setTextinTextArea2("********************************************\n");
-                 sb.append("********************************************").append("\n");
-                
-                
-                 OutputDisplayer.setTextinTextArea2("Possible Phone Numbers :\n");
-                 sb.append("Possible Phone Numbers :").append("\n");
+
+                OutputDisplayer.setTextinTextArea2("Possible Phone Numbers :\n");
 
                 String searchKeyForPhone = name + " Contact Phone Call";
                 calllinks = googleSearch.getGoogleSearchLinks(searchKeyForPhone, Configurations.googleURLPhoneResultEnd);
                 phoneNumbers.addAll(webCrawl.crawlWeb(calllinks, Configurations.REGEX_PHONE, Configurations.linkDepthForPhone, false));
                
-                
-                 
-                 
                 for (String phoneNumber : phoneNumbers) {
                    OutputDisplayer.setTextinTextArea2("\t"+phoneNumber+"\n");
-                    sb.append("\t").append(phoneNumber).append("\n");
                     
                    dBActions.insertContactNoDetails(phoneNumber, leadID);
                 }
                 
                 OutputDisplayer.setTextinTextArea2("********************************************\n");
-                sb.append("********************************************").append("\n");
                 
-                 OutputDisplayer.setTextinTextArea2("Possible Email Address :\n");
-                sb.append("Possible Email Address :").append("\n");
+                OutputDisplayer.setTextinTextArea2("Possible Email Address :\n");
 
                 String searchKeyForEmail = name + " Contact Email";
                 emaillinks = googleSearch.getGoogleSearchLinks(searchKeyForEmail, Configurations.googleURLEmailResultEnd);
                 emailAddresses = webCrawl.crawlWeb(emaillinks, Configurations.REGEX_EMAIL, Configurations.linkDepthForPhone, false);            
-                 
-               
-               
-                
+            
                 String firstName = name.split(" ")[0].toLowerCase();
                 String secondName = name.split(" ")[1].toLowerCase();
                 for (String emailAddress : emailAddresses) {
@@ -146,18 +125,14 @@ public class Actions {
                         dBActions.insertEmailAddressDetails(emailAddress, leadID);
                         
                         OutputDisplayer.setTextinTextArea2("\t"+emailAddress+"\n");
-                         sb.append("\t").append(emailAddress).append("\n");
                     }
                 }
             }
 
-
             Calendar end = Calendar.getInstance();
             OutputDisplayer.setTextinTextArea2("##############################################\n");
-            sb.append("##############################################").append("\n");
             
             OutputDisplayer.setTextinTextArea2("Process End @ "+end.getTime()+"\n");
-            sb.append("Process End @ ").append(end.getTime()).append("\n");
             
             long duration = end.getTimeInMillis() - start.getTimeInMillis();
             String durationString = String.format("%02dhh:%02dmm:%02dss",
@@ -167,11 +142,7 @@ public class Actions {
                     TimeUnit.MILLISECONDS.toSeconds(duration)
                     - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
             OutputDisplayer.setTextinTextArea2("Duration : "+durationString+"\n");
-            sb.append("Duration : ").append(durationString).append("\n");
             OutputDisplayer.setTextinTextArea2("##############################################\n");
-            sb.append("##############################################").append("\n");
-            //new Results(null, true, sb).setVisible(true);
-            System.out.println(sb.toString());
 
         } catch (IOException ex) {
             System.err.println(ex.getMessage());

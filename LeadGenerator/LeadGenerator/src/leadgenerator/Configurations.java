@@ -33,6 +33,6 @@ public class Configurations {
 //    public static int googleURLEmailResultEnd=100;
 //    public static int googleURLPhoneResultEnd=100;
     public static int googleURLLinkeInResultEnd=1;
-      public static int googleURLEmailResultEnd=100;
+      public static int googleURLEmailResultEnd=1;
     public static int googleURLPhoneResultEnd=1;
 }
