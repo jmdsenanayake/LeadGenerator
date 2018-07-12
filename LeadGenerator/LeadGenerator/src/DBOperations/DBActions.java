@@ -5,12 +5,8 @@
  */
 package DBOperations;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,10 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 /**
  *
@@ -173,98 +165,93 @@ public class DBActions {
             csvWriter.println(row);
         }
         csvWriter.close();
-        
-        JOptionPane.showMessageDialog(null, "File dowmloaded to "+System.getProperty("user.dir")+"\\"+filename+".csv", "Lead Generator",JOptionPane.INFORMATION_MESSAGE);
+
+        JOptionPane.showMessageDialog(null, "File dowmloaded to " + System.getProperty("user.dir") + "\\" + filename + ".csv", "Lead Generator", JOptionPane.INFORMATION_MESSAGE);
     }
-    
-    public static void populateFinalOutputTable(int criteria_id){
+
+    public static void populateFinalOutputTable(int criteria_id) {
         Connection dBConnection = null;
         try {
-            dBConnection = new DBConnection().createConnection();
-            
-            String sqlTruncate="truncate finaloutput";
-            PreparedStatement ps = dBConnection.prepareStatement(sqlTruncate);
-            ps.executeUpdate();           
-            
-            ArrayList<String> criteria_idList=new ArrayList<>();
-            criteria_idList.add(criteria_id+"");
-            Object[] criteria_idListArray=criteria_idList.toArray();            
-            
-            ArrayList<String> criteriaList=new ArrayList<>();            
-            
+            dBConnection = new DBConnection().createConnection();           
+
+            ArrayList<String> criteria_idList = new ArrayList<>();
+            criteria_idList.add(criteria_id + "");
+            Object[] criteria_idListArray = criteria_idList.toArray();
+
+            ArrayList<String> criteriaList = new ArrayList<>();
+
             String sql1 = "select criteria from criteria where criteria_id=?";
             PreparedStatement ps1 = dBConnection.prepareStatement(sql1);
             ps1.setInt(1, criteria_id);
             ResultSet rs1 = ps1.executeQuery();
-            while (rs1.next()) {     
+            while (rs1.next()) {
                 criteriaList.add(rs1.getString("criteria"));
             }
-            
-            Object[] criteriaListArray=criteriaList.toArray();
-            
-            ArrayList<String> leadIDs=new ArrayList<>();
-            ArrayList<String> leadnames=new ArrayList<>();            
-            
+
+            Object[] criteriaListArray = criteriaList.toArray();
+
+            ArrayList<String> leadIDs = new ArrayList<>();
+            ArrayList<String> leadnames = new ArrayList<>();
+
             String sql2 = "select lead_id,leadname from leadnames where criteria_id=?";
             PreparedStatement ps2 = dBConnection.prepareStatement(sql2);
             ps2.setInt(1, criteria_id);
             ResultSet rs2 = ps2.executeQuery();
-            while (rs2.next()) {     
+            while (rs2.next()) {
                 leadIDs.add(rs2.getString("lead_id"));
                 leadnames.add(rs2.getString("leadname"));
             }
-            
-            Object[] leadIDsArray=leadIDs.toArray();
-            Object[] leadnamesArray=leadnames.toArray();
-            
+
+            Object[] leadIDsArray = leadIDs.toArray();
+            Object[] leadnamesArray = leadnames.toArray();
+
             for (int i = 0; i < leadIDsArray.length; i++) {
-                
-                ArrayList<String> designations=new ArrayList<>();        
+
+                ArrayList<String> designations = new ArrayList<>();
                 String sql3 = "select designation from designations where lead_id=?";
                 PreparedStatement ps3 = dBConnection.prepareStatement(sql3);
                 ps3.setInt(1, Integer.parseInt(leadIDsArray[i].toString()));
                 ResultSet rs3 = ps3.executeQuery();
-                
-                while (rs3.next()) {                   
+
+                while (rs3.next()) {
                     designations.add(rs3.getString("designation"));
                 }
-                Object[] designationsArray=designations.toArray();                
-                
-                ArrayList<String> emailAddress=new ArrayList<>();        
+                Object[] designationsArray = designations.toArray();
+
+                ArrayList<String> emailAddress = new ArrayList<>();
                 String sql4 = "select emailaddress from emailaddress where lead_id=?";
                 PreparedStatement ps4 = dBConnection.prepareStatement(sql4);
                 ps4.setInt(1, Integer.parseInt(leadIDsArray[i].toString()));
                 ResultSet rs4 = ps4.executeQuery();
-                
-                while (rs4.next()) {                   
+
+                while (rs4.next()) {
                     emailAddress.add(rs4.getString("emailaddress"));
                 }
-                Object[] emailAddressArray=emailAddress.toArray();
-                
-                
-                ArrayList<String> contactNos=new ArrayList<>();        
+                Object[] emailAddressArray = emailAddress.toArray();
+
+                ArrayList<String> contactNos = new ArrayList<>();
                 String sql5 = "select contactno from contactnos where lead_id=?";
                 PreparedStatement ps5 = dBConnection.prepareStatement(sql5);
                 ps5.setInt(1, Integer.parseInt(leadIDsArray[i].toString()));
                 ResultSet rs5 = ps5.executeQuery();
-                
-                while (rs5.next()) {                   
+
+                while (rs5.next()) {
                     contactNos.add(rs5.getString("contactno"));
                 }
-                Object[] contactNosArray=contactNos.toArray();
-                
-                int recordCountMax=Math.max(designationsArray.length, Math.max(emailAddressArray.length,contactNosArray.length));
-                
+                Object[] contactNosArray = contactNos.toArray();
+
+                int recordCountMax = Math.max(designationsArray.length, Math.max(emailAddressArray.length, contactNosArray.length));
+                recordCountMax = recordCountMax > 0 ? recordCountMax : 1;
                 for (int j = 0; j < recordCountMax; j++) {
-                   
-                   String criteria_id_TBE=(j==0)?((i==0)?criteria_idListArray[0].toString():""):"";
-                   String criteria_TBE=(j==0)?((i==0)?criteriaListArray[0].toString():""):"";
-                   String leadname_TBE=(j==0)?leadnamesArray[i].toString():"";
-                   String designation_TBE=designationsArray.length>j?designationsArray[j].toString():"";
-                   String emailAddress_TBE=emailAddressArray.length>j?emailAddressArray[j].toString():"";
-                   String contactNos_TBE=contactNosArray.length>j?contactNosArray[j].toString():"";
-                   
-                   String sql6 = "insert into finaloutput (criteria_id,criteria,leadname,designation,emailAddress,contactNo) values (?,?,?,?,?,?)";
+
+                    String criteria_id_TBE = (i == 0) ? ((j == 0) ? criteria_idListArray[0].toString() : "") : "";
+                    String criteria_TBE = (i == 0) ? ((j == 0) ? criteriaListArray[0].toString() : "") : "";
+                    String leadname_TBE = (j == 0) ? leadnamesArray[i].toString() : "";
+                    String designation_TBE = designationsArray.length > j ? designationsArray[j].toString() : "";
+                    String emailAddress_TBE = emailAddressArray.length > j ? emailAddressArray[j].toString() : "";
+                    String contactNos_TBE = contactNosArray.length > j ? contactNosArray[j].toString() : "";
+
+                    String sql6 = "insert into finaloutput (criteria_id,criteria,leadname,designation,emailAddress,contactNo) values (?,?,?,?,?,?)";
 
                     PreparedStatement ps6 = dBConnection.prepareStatement(sql6);
                     ps6.setString(1, criteria_id_TBE);
@@ -273,24 +260,40 @@ public class DBActions {
                     ps6.setString(4, designation_TBE);
                     ps6.setString(5, emailAddress_TBE);
                     ps6.setString(6, contactNos_TBE);
-                    ps6.executeUpdate();          
-                }               
+                    ps6.executeUpdate();
+                }
+
+                String sql7 = "insert into finaloutput (criteria_id,criteria,leadname,designation,emailAddress,contactNo) values (?,?,?,?,?,?)";
+
+                PreparedStatement ps7 = dBConnection.prepareStatement(sql7);
+                ps7.setString(1, "");
+                ps7.setString(2, "");
+                ps7.setString(3, "");
+                ps7.setString(4, "");
+                ps7.setString(5, "");
+                ps7.setString(6, "");
+                ps7.executeUpdate();
+
             }
-            
-            String sql7 = "select criteria,leadname,designation,emailAddress,contactNo from finalOutput";
+
+            String sql7 = "select criteria,leadname,designation,emailAddress,contactNo from finalOutput where criteria_id=?";
             PreparedStatement ps7 = dBConnection.prepareStatement(sql7);
-            
+            ps7.setInt(1, criteria_id);
             ResultSet rs7 = ps7.executeQuery();
             Calendar cal = Calendar.getInstance();
             SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-            convertToCSV(rs7, "FinalOutput_"+df.format(cal.getTime()));
-            
-        }catch(Exception e){
+            convertToCSV(rs7, "FinalOutput_" + df.format(cal.getTime()));
+
+        } catch (Exception e) {
             e.printStackTrace();
-        }        
-        
+        }
+
     }
-    
+
+    public static void main(String[] args) {
+        populateFinalOutputTable(39);
+    }
+
 //    public static void getFinalDetails(int criteria_id) {
 //
 //        Connection dBConnection = null;
@@ -370,8 +373,6 @@ public class DBActions {
 //            }
 //        }
 //    }
-    
-    
 //    private static void createResultsReport(ResultSet[] rsArr, int criteriaid) throws SQLException, FileNotFoundException {
 //        Calendar cal = Calendar.getInstance();
 //        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -386,7 +387,6 @@ public class DBActions {
 //        combineCSVs(folderName);
 //
 //    }
-
 //    public static void combineCSVs(String location) {
 //        try {
 //

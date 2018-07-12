@@ -8,6 +8,8 @@ package leadgenerator;
 import edu.stanford.nlp.ie.crf.CRFClassifier;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -22,7 +24,8 @@ public class NameRecongnizer {
     private  Set<String> names=new HashSet<>();
     
     public Set<String> recongnizeNames(Set<String> matchedPatterns){
-        String model="classifiers\\english.muc.7class.distsim.crf.ser.gz";
+        //String model="classifiers\\english.muc.7class.distsim.crf.ser.gz";
+        String model="classifiers\\english.all.3class.distsim.crf.ser.gz";
 //        String model="classifiers\\english.conll.4class.distsim.crf.ser.gz";
         String serializedClassifier = model;
         CRFClassifier<CoreLabel> classifier = CRFClassifier.getClassifierNoExceptions(serializedClassifier);
@@ -30,6 +33,7 @@ public class NameRecongnizer {
         for(String successWord:matchedPatterns){
             identifyNER(successWord,classifier);
         }
+        removeNotNames();
         return names;
         
     }
@@ -61,6 +65,33 @@ public class NameRecongnizer {
                     //System.out.println(word + ":" + category);
                 }
             }
+        }
+    }
+    
+    private void removeNotNames(){       
+       
+        String[] pronouns=new String[]{"I","me","we","us","you","she","her","he","him","it","they","them",
+            "that","which","who","whom","whose","whichever","whoever","whomever","this","these","that",
+            "those","anybody","anyone","anything","each","either","everybody","everyone","everything",
+            "neither","nobody","none","nothing","one","somebody","something","someone","both","few","many",
+            "several","all","any","most","some","myself","ourselves","yourself","yourselves","himself",
+            "herself","itself","themselves","what","my","your","his","her","its","our","your","their","mine",
+            "yours","his","hers","ours","yours","theirs"};
+        
+        Arrays.sort(pronouns);
+        Set<String> notNames=new HashSet<>();
+        for(String name:names){
+            String[] twoNames=name.split(" ");
+            for (String aName:twoNames) {
+                System.out.println(aName+" "+Arrays.binarySearch(pronouns,aName));
+//                if(Arrays.binarySearch(pronouns,aName)<0){
+//                    notNames.add(name);
+//                }   
+            }                     
+        }
+        for(String notName:notNames){
+            System.out.println(notName);
+            names.remove(notName);
         }
     }
     

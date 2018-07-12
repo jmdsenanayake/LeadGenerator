@@ -147,7 +147,6 @@ public class Actions {
         } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }
-
     }
 
     private static String getSearchResultsString(String searchKeyPhrase) throws IOException {
@@ -175,8 +174,4 @@ public class Actions {
         return out.toString();
     }
     
-    public void downloadAsExcel(){
-    
-    }
-
 }
