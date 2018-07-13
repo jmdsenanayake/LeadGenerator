@@ -89,10 +89,10 @@ public class NameRecongnizer {
 //                }   
             }                     
         }
-        for(String notName:notNames){
-            System.out.println(notName);
-            names.remove(notName);
-        }
+//        for(String notName:notNames){
+//            System.out.println(notName);
+//            names.remove(notName);
+//        }
     }
     
 }
