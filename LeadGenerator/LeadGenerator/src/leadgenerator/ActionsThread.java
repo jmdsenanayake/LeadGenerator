@@ -104,10 +104,10 @@ public class ActionsThread {
 //            System.out.println("matchedPatterns: "+matchedPatterns);
 //            System.out.println("namePhone: "+namePhone);
 //            System.out.println("nameEmail: "+nameEmail);
-            OutputDisplayer.setTextinTextArea("#####################################################################");
+            OutputDisplayer.setTextInloadingProgressTextArea("#####################################################################");
 //            OutputDisplayer.setTextinTextArea(matchedPatterns.toString());
-            OutputDisplayer.setTextinTextArea(namePhone.toString());
-            OutputDisplayer.setTextinTextArea(nameEmail.toString());
+            OutputDisplayer.setTextInloadingProgressTextArea(namePhone.toString());
+            OutputDisplayer.setTextInloadingProgressTextArea(nameEmail.toString());
             isLeadsGenerated = true;
         } catch (IOException ex) {
             System.err.println(ex.getMessage());

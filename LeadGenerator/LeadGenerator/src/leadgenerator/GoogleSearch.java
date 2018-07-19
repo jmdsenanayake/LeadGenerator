@@ -32,7 +32,7 @@ public class GoogleSearch {
 
             // Download the content from Google.
             //System.out.println("Downloading [" + url + "]...\n");
-            OutputDisplayer.setTextinTextArea("Downloading [" + url + "]...\n");
+            OutputDisplayer2.setTextInloadingProgressTextArea("Downloading [" + url + "]...\n");
             String html = downloadString(url);
 
             // Parse and display the links.
@@ -134,7 +134,7 @@ public class GoogleSearch {
                 urlText = urlText.replaceAll("&quot;", "\"");
                 final URL url = new URL(urlText);
                 links.add(url);
-                OutputDisplayer.setTextinTextArea(urlText);
+                OutputDisplayer2.setTextInloadingProgressTextArea(urlText);
                 //System.out.println(urlText);
                 index = urlEnd + token3.length();
             }

@@ -20,8 +20,8 @@ public class OutputDisplayer extends javax.swing.JFrame {
         initComponents();
       //  searchKey.setText(Configurations.searchKeyPhrase);
         //searchDepth.setText(Configurations.linkDepthForNames + "");
-        jTextArea1.setVisible(false);
-        jTextArea2.setEnabled(false);
+        loadingProgressTextArea.setVisible(false);
+        loadingOutputTextArea.setEnabled(false);
         jButton2.setEnabled(false);
    }
 
@@ -45,9 +45,9 @@ public class OutputDisplayer extends javax.swing.JFrame {
         leadsSearchDepth = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        loadingProgressTextArea = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        loadingOutputTextArea = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -59,7 +59,7 @@ public class OutputDisplayer extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Search Key Phrase :");
+        jLabel1.setText("Criteria :");
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("<html>Criteria Search Depth :");
@@ -132,19 +132,19 @@ public class OutputDisplayer extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jTextArea1.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(jTextArea1);
+        loadingProgressTextArea.setEditable(false);
+        loadingProgressTextArea.setColumns(20);
+        loadingProgressTextArea.setLineWrap(true);
+        loadingProgressTextArea.setRows(5);
+        loadingProgressTextArea.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(loadingProgressTextArea);
 
-        jTextArea2.setEditable(false);
-        jTextArea2.setColumns(20);
-        jTextArea2.setLineWrap(true);
-        jTextArea2.setRows(5);
-        jTextArea2.setWrapStyleWord(true);
-        jScrollPane2.setViewportView(jTextArea2);
+        loadingOutputTextArea.setEditable(false);
+        loadingOutputTextArea.setColumns(20);
+        loadingOutputTextArea.setLineWrap(true);
+        loadingOutputTextArea.setRows(5);
+        loadingOutputTextArea.setWrapStyleWord(true);
+        jScrollPane2.setViewportView(loadingOutputTextArea);
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -243,18 +243,18 @@ public class OutputDisplayer extends javax.swing.JFrame {
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/leadgenerator/loadingText.gif"))); // NOI18N
         Thread t = new Thread() {
             public void run() {
-                 jTextArea2.setEnabled(true);
-                jTextArea1.append("##############################################\n");
+                 loadingOutputTextArea.setEnabled(true);
+                loadingProgressTextArea.append("##############################################\n");
                 jButton1.setEnabled(false);
                 //jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/leadgenerator/Loading.gif")));
                 jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/leadgenerator/hacking3_4.gif")));
-                jTextArea1.setVisible(true);
+                loadingProgressTextArea.setVisible(true);
                 Actions.generateLeads();                  
                 jLabel4.setIcon(null);
                 jLabel6.setIcon(null); 
                 //jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/leadgenerator/search.png")));
                 jButton1.setEnabled(true);
-                jTextArea1.append("##############################################\n");
+                loadingProgressTextArea.append("##############################################\n");
                 jButton2.setEnabled(true);
             }
         };
@@ -301,14 +301,14 @@ public class OutputDisplayer extends javax.swing.JFrame {
         });
     }
 
-    public static void setTextinTextArea(String text) {
-        jTextArea1.append(text + "\n");
-        jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
+    public static void setTextInloadingProgressTextArea(String text) {
+        loadingProgressTextArea.append(text + "\n");
+        loadingProgressTextArea.setCaretPosition(loadingProgressTextArea.getDocument().getLength());
     }
     
-    public static void setTextinTextArea2(String text) {
-        jTextArea2.append(text + "\n");
-        jTextArea2.setCaretPosition(jTextArea2.getDocument().getLength());
+    public static void setTextInloadingOutputTextArea(String text) {
+        loadingOutputTextArea.append(text + "\n");
+        loadingOutputTextArea.setCaretPosition(loadingOutputTextArea.getDocument().getLength());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -326,9 +326,9 @@ public class OutputDisplayer extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private static javax.swing.JTextArea jTextArea1;
-    private static javax.swing.JTextArea jTextArea2;
     private javax.swing.JComboBox<String> leadsSearchDepth;
+    private static javax.swing.JTextArea loadingOutputTextArea;
+    private static javax.swing.JTextArea loadingProgressTextArea;
     private javax.swing.JTextField searchKey;
     // End of variables declaration//GEN-END:variables
 }

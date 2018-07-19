@@ -11,7 +11,8 @@ package leadgenerator;
  */
 public class Configurations {
 
-    public static String searchKeyPhrase = "colombo colts cricket club administration";
+    //public static String searchKeyPhrase = "colombo colts cricket club administration";
+    public static String searchKeyPhrase = "Bankers in Sri Lanka";
 
     //Regular Expressions for search key patterns
     public static final String REGEX_NAME = "[A-Z]([a-z]+) [A-Z]([a-z]+)";
@@ -23,16 +24,28 @@ public class Configurations {
     // public static final String USER_AGENT= "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.112 Safari/535.1";
     // public static final String USER_AGENT ="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US)";
     
-    // link depth
+    // crawling depth for names
     public static int linkDepthForNames=1;
+    
+    // crawling depth for emails
     public static int linkDepthForEmails=1;
+    
+    // crawling depth for phone
     public static int linkDepthForPhone=1;
     
-    // results depth
+    // google search results pages for criteria (1 or multiplies of 10)
     public static int googleURLSearchResultEnd=1;
-//    public static int googleURLEmailResultEnd=100;
-//    public static int googleURLPhoneResultEnd=100;
+
+    
+    // google search results pages for criteria (1 or multiplies of 10)
     public static int googleURLLinkeInResultEnd=1;
-      public static int googleURLEmailResultEnd=1;
+    
+    // google search results pages for criteria (1 or multiplies of 10)
+    public static int googleURLEmailResultEnd=1;
+    
+    // google search results pages for criteria (1 or multiplies of 10)
     public static int googleURLPhoneResultEnd=1;
+    
+    
+    public static String systemTitle="Lead Generator";
 }
