@@ -184,12 +184,12 @@ public class OutputDisplayer2 extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(contactDepthSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(leadsSearchDepth)
                     .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(contactDepthSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(leadsSearchDepth, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE))
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton1)
                     .addComponent(searchKey))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -242,13 +242,22 @@ public class OutputDisplayer2 extends javax.swing.JFrame {
             Configurations.searchKeyPhrase = searchKeyPhrase;
 
             Configurations.googleURLSearchResultEnd = leadsSearchDepthVal * 10;
-
-            Configurations.googleURLLinkeInResultEnd = contactsSearchDepthVal * 10;
+            Configurations.linkDepthForNames=leadsSearchDepthVal; //crawl depth
+            
+            
             Configurations.googleURLEmailResultEnd = contactsSearchDepthVal * 10;
+            Configurations.linkDepthForEmails=contactsSearchDepthVal; //crawl depth
+            
             Configurations.googleURLPhoneResultEnd = contactsSearchDepthVal * 10;
+            Configurations.linkDepthForPhone=contactsSearchDepthVal; //crawl depth
+            
+            Configurations.googleURLLinkeInResultEnd = contactsSearchDepthVal * 10;
 
             //  jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/leadgenerator/loadingText.gif"))); // NOI18N
             jButton3.setEnabled(false);
+            leadsSearchDepth.setEnabled(false);
+            contactDepthSearch.setEnabled(false);
+            searchKey.setEnabled(false);
             Thread t = new Thread() {
                 public void run() {
                     loadingProgressTextArea.append("##############################################\n");
@@ -261,6 +270,9 @@ public class OutputDisplayer2 extends javax.swing.JFrame {
 
                     loadingProgressTextArea.append("##############################################\n");
                     jButton3.setEnabled(true);
+                    leadsSearchDepth.setEnabled(true);
+                    contactDepthSearch.setEnabled(true);
+                    searchKey.setEnabled(true);
                 }
             };
             t.start();

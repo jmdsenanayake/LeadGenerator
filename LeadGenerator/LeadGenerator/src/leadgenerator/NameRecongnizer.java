@@ -20,35 +20,36 @@ import java.util.Set;
  * @author Janaka_5977
  */
 public class NameRecongnizer {
-    String[] pronouns=new String[]{"I","me","we","us","you","she","her","he","him","it","they","them",
-            "that","which","who","whom","whose","whichever","whoever","whomever","this","these","that",
-            "those","anybody","anyone","anything","each","either","everybody","everyone","everything",
-            "neither","nobody","none","nothing","one","somebody","something","someone","both","few","many",
-            "several","all","any","most","some","myself","ourselves","yourself","yourselves","himself",
-            "herself","itself","themselves","what","my","your","his","her","its","our","your","their","mine",
-            "yours","his","hers","ours","yours","theirs"};
-    
-    private  Set<String> names=new HashSet<>();
-    
-    public Set<String> recongnizeNames(Set<String> matchedPatterns){
-        //String model="classifiers\\english.muc.7class.distsim.crf.ser.gz";
-//        String model="classifiers\\english.all.3class.distsim.crf.ser.gz";
-        String model="classifiers\\english.conll.4class.distsim.crf.ser.gz";
+
+    static String[] skippedWords;
+
+    static {
+        HashSet<String> skippedWordsSet = DBOperations.DBActions.getSkippedWords();
+        skippedWords = skippedWordsSet.toArray(new String[skippedWordsSet.size()]);
+        Arrays.sort(skippedWords);
+        System.out.println(skippedWordsSet.toString());
+    }
+    private Set<String> names = new HashSet<>();
+
+    public Set<String> recongnizeNames(Set<String> matchedPatterns) {
+//        String model="classifiers\\english.muc.7class.distsim.crf.ser.gz";
+      //  String model="classifiers\\english.all.3class.distsim.crf.ser.gz";
+        //String model = "classifiers\\english.conll.4class.distsim.crf.ser.gz";
+        String model = "classifiers\\english.nowiki.3class.distsim.crf.ser.gz";
         String serializedClassifier = model;
         CRFClassifier<CoreLabel> classifier = CRFClassifier.getClassifierNoExceptions(serializedClassifier);
-        
-        for(String successWord:matchedPatterns){
-            identifyNER(successWord,classifier);
+
+        for (String successWord : matchedPatterns) {
+            identifyNER(successWord, classifier);
         }
-//        removeNotNames();
         return names;
-        
+
     }
-    
-    private void identifyNER(String text,CRFClassifier<CoreLabel> classifier) {      
-        
+
+    private void identifyNER(String text, CRFClassifier<CoreLabel> classifier) {
+
         LinkedHashMap<String, LinkedHashSet<String>> map = new <String, LinkedHashSet<String>>LinkedHashMap();
-        
+
         List<List<CoreLabel>> classify = classifier.classify(text);
         for (List<CoreLabel> coreLabels : classify) {
             for (CoreLabel coreLabel : coreLabels) {
@@ -64,38 +65,24 @@ public class NameRecongnizer {
                         temp.add(word);
                         map.put(category, temp);
                     }
-                    if(category.equalsIgnoreCase("PERSON")){
-                        if(Arrays.binarySearch(pronouns,text)<0){
+                    if (category.equalsIgnoreCase("PERSON")) {
+                        String[] twoNames=text.split(" ");
+                        int searchResultName1=0;
+                        int searchResultName2=0;
+                        
+                        searchResultName1=Arrays.binarySearch(skippedWords, twoNames[0].toLowerCase());
+                        searchResultName2=Arrays.binarySearch(skippedWords, twoNames[1].toLowerCase());
+                        
+                        if (searchResultName1 < 0 && searchResultName2<0 ) {
+                            
                             names.add(text);
                         }
-                }
-                        
                     }
-                    
-                    OutputDisplayer2.setTextInloadingProgressTextArea(word+":"+category);
-                    //System.out.println(word + ":" + category);
                 }
+
+                OutputDisplayer2.setTextInloadingProgressTextArea(word + ":" + category);
             }
         }
-//    }
-    
-//    private void removeNotNames(){       
-//       
-//        
-//        
-//        Arrays.sort(pronouns);
-//        Set<String> notNames=new HashSet<>();
-//        for(String name:names){
-//            String[] twoNames=name.split(" ");
-//            for (String aName:twoNames) {                
-//                if(Arrays.binarySearch(pronouns,aName)>=0){
-//                    notNames.add(name);
-//                }   
-//            }                     
-//        }
-//        for(String notName:notNames){
-//            names.remove(notName);
-//        }
-//    }
-    
+    }
+
 }

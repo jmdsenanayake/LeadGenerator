@@ -15,7 +15,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -172,7 +174,7 @@ public class DBActions {
     public static void populateFinalOutputTable(int criteria_id) {
         Connection dBConnection = null;
         try {
-            dBConnection = new DBConnection().createConnection();           
+            dBConnection = new DBConnection().createConnection();
 
             ArrayList<String> criteria_idList = new ArrayList<>();
             criteria_idList.add(criteria_id + "");
@@ -287,12 +289,38 @@ public class DBActions {
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                dBConnection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
 
     }
 
-    public static void main(String[] args) {
-        populateFinalOutputTable(74);
+     public static HashSet getSkippedWords() {
+        HashSet<String> words = new HashSet();
+        Connection dBConnection = null;
+        try {
+            dBConnection = new DBConnection().createConnection();
+            String sql1 = "select word from skipwords";
+            PreparedStatement ps1 = dBConnection.prepareStatement(sql1);
+            ResultSet rs1 = ps1.executeQuery();
+            while (rs1.next()) {
+                words.add(rs1.getString("word").toLowerCase());
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            
+            try {
+                dBConnection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }        
+        }
+        return words;
     }
 
 }
