@@ -1,0 +1,8 @@
+String[] pronouns=new String[]{"I","me","we","us","you","she","her","he","him","it","they","them",
+            "that","which","who","whom","whose","whichever","whoever","whomever","this","these","that",
+            "those","anybody","anyone","anything","each","either","everybody","everyone","everything",
+            "neither","nobody","none","nothing","one","somebody","something","someone","both","few","many",
+            "several","all","any","most","some","myself","ourselves","yourself","yourselves","himself",
+            "herself","itself","themselves","what","my","your","his","her","its","our","your","their","mine",
+            "yours","his","hers","ours","yours","theirs"};
+    
