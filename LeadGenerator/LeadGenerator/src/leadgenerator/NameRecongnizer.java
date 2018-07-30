@@ -68,12 +68,13 @@ public class NameRecongnizer {
                     if (category.equalsIgnoreCase("PERSON")) {
                         String[] twoNames=text.split(" ");
                         int searchResultName1=0;
-                        int searchResultName2=0;
+                      //  int searchResultName2=0;
                         
                         searchResultName1=Arrays.binarySearch(skippedWords, twoNames[0].toLowerCase());
-                        searchResultName2=Arrays.binarySearch(skippedWords, twoNames[1].toLowerCase());
+                       // searchResultName2=Arrays.binarySearch(skippedWords, twoNames[1].toLowerCase());
                         
-                        if (searchResultName1 < 0 && searchResultName2<0 ) {
+//                        if (searchResultName1 < 0 && searchResultName2<0 ) {
+                        if (searchResultName1 < 0) {
                             
                             names.add(text);
                         }
