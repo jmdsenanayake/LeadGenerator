@@ -114,7 +114,7 @@ public class OutputDisplayer2 extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/leadgenerator/hacking3_4.gif"))); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/leadgenerator/backgroundGIF.gif"))); // NOI18N
 
         jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -187,9 +187,9 @@ public class OutputDisplayer2 extends javax.swing.JFrame {
                     .addComponent(contactDepthSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(leadsSearchDepth)
                     .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton1)
                     .addComponent(searchKey))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -270,6 +270,7 @@ public class OutputDisplayer2 extends javax.swing.JFrame {
 
                     loadingProgressTextArea.append("##############################################\n");
                     jButton3.setEnabled(true);
+                    jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/leadgenerator/backgroundJPG.jpg"))); // NOI18N
                     leadsSearchDepth.setEnabled(true);
                     contactDepthSearch.setEnabled(true);
                     searchKey.setEnabled(true);
