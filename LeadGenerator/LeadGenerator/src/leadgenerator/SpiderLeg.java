@@ -43,18 +43,18 @@ public class SpiderLeg {
             if (connection.response().statusCode() == 200) // 200 is the HTTP OK status code
             // indicating that everything is great.
             {
-                OutputDisplayer2.setTextInloadingProgressTextArea("\n**Visiting** Received web page at " + url);
+                OutputDisplayer.setTextInloadingProgressTextArea("\n**Visiting** Received web page at " + url);
                 //System.out.println("\n**Visiting** Received web page at " + url);
                 
                 String contentType = connection.response().contentType();   
                 boolean isAcceptablePage=contentType!=null && contentType.contains("text/html");
                 if (!isAcceptablePage) {
-                    OutputDisplayer2.setTextInloadingProgressTextArea("**Failure** Retrieved something other than HTML");
+                    OutputDisplayer.setTextInloadingProgressTextArea("**Failure** Retrieved something other than HTML");
                     //System.out.println("**Failure** Retrieved something other than HTML");
                     return false;
                 }
                 Elements linksOnPage = htmlDocument.select("a[href]");
-                OutputDisplayer2.setTextInloadingProgressTextArea("Found (" + linksOnPage.size() + ") links");
+                OutputDisplayer.setTextInloadingProgressTextArea("Found (" + linksOnPage.size() + ") links");
                 //System.out.println("Found (" + linksOnPage.size() + ") links");
                 if (linksOnPage.size() == 0) {
                     return false;
@@ -85,10 +85,10 @@ public class SpiderLeg {
         Set<String> matchedPatterns = new HashSet<>();
         // Defensive coding. This method should only be used after a successful crawl.
         if (this.htmlDocument == null) {
-            OutputDisplayer2.setTextInloadingProgressTextArea("ERROR! Call crawl() before performing analysis on the document");
+            OutputDisplayer.setTextInloadingProgressTextArea("ERROR! Call crawl() before performing analysis on the document");
             //System.out.println("ERROR! Call crawl() before performing analysis on the document");
         } else {
-            OutputDisplayer2.setTextInloadingProgressTextArea("Searching for the word " + searchWord + "...");
+            OutputDisplayer.setTextInloadingProgressTextArea("Searching for the word " + searchWord + "...");
             //System.out.println("Searching for the word " + searchWord + "...");
             String bodyText = this.htmlDocument.body().text();
             Pattern p = Pattern.compile(searchWord);

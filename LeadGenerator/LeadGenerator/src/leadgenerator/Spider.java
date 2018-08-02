@@ -48,7 +48,7 @@ public class Spider {
             if (isHTML) {
                Set<String> matchedPatternsPart = leg.searchForWord(searchWord);
                 if (matchedPatternsPart.size()>0) {
-                    OutputDisplayer2.setTextInloadingProgressTextArea("**Success** Word "+searchWord+" found at "+currentUrl);
+                    OutputDisplayer.setTextInloadingProgressTextArea("**Success** Word "+searchWord+" found at "+currentUrl);
                     //System.out.println(String.format("**Success** Word %s found at %s", searchWord, currentUrl));
                    // successPages.add(currentUrl);
                    matchedPatterns.addAll(matchedPatternsPart);
@@ -70,7 +70,7 @@ public class Spider {
             }
 
         }
-        OutputDisplayer2.setTextInloadingProgressTextArea("\n**Done** Visited " + this.pagesVisited.size() + " web page(s)");
+        OutputDisplayer.setTextInloadingProgressTextArea("\n**Done** Visited " + this.pagesVisited.size() + " web page(s)");
         //System.out.println("\n**Done** Visited " + this.pagesVisited.size() + " web page(s)");
         return matchedPatterns;
     }

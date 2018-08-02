@@ -27,8 +27,8 @@ public class Actions {
     static int criterialId = 0;
     public static void generateLeads() {
         final Calendar start = Calendar.getInstance();
-         OutputDisplayer2.setTextInloadingOutputTextArea("Process Started @ "+start.getTime()+"\n");
-        OutputDisplayer2.setTextInloadingOutputTextArea("##############################################\n");
+         OutputDisplayer.setTextInloadingOutputTextArea("Process Started @ "+start.getTime()+"\n");
+        OutputDisplayer.setTextInloadingOutputTextArea("##############################################\n");
         DBActions dBActions = new DBActions();
         
         try {
@@ -36,8 +36,8 @@ public class Actions {
             WebCrawl webCrawl = new WebCrawl();
             List<URL> links = googleSearch.getGoogleSearchLinks(Configurations.searchKeyPhrase, Configurations.googleURLSearchResultEnd);
             criterialId = dBActions.insertCriteriaDetails(Configurations.searchKeyPhrase);
-            OutputDisplayer2.setTextInloadingOutputTextArea("##############################################");
-            OutputDisplayer2.setTextInloadingOutputTextArea("Generating Leads for :"+Configurations.searchKeyPhrase);
+            OutputDisplayer.setTextInloadingOutputTextArea("##############################################");
+            OutputDisplayer.setTextInloadingOutputTextArea("Generating Leads for :"+Configurations.searchKeyPhrase);
             Set<String> matchedPatterns = webCrawl.crawlWeb(links, Configurations.REGEX_NAME, Configurations.linkDepthForNames, true);
 
             NameRecongnizer nameRecongnizer = new NameRecongnizer();
@@ -51,15 +51,15 @@ public class Actions {
             List<URL> emaillinks = new LinkedList<>();
             for (String name : names) {
                 
-                OutputDisplayer2.setTextInloadingOutputTextArea("##############################################\n");
+                OutputDisplayer.setTextInloadingOutputTextArea("##############################################\n");
                 
-                OutputDisplayer2.setTextInloadingOutputTextArea("Name : "+name);
+                OutputDisplayer.setTextInloadingOutputTextArea("Name : "+name);
                 
-                OutputDisplayer2.setTextInloadingOutputTextArea("____________________________\n");
+                OutputDisplayer.setTextInloadingOutputTextArea("____________________________\n");
                 
-                OutputDisplayer2.setTextInloadingOutputTextArea("********************************************\n");
+                OutputDisplayer.setTextInloadingOutputTextArea("********************************************\n");
                  
-                 OutputDisplayer2.setTextInloadingOutputTextArea("Possible Designations :\n");
+                 OutputDisplayer.setTextInloadingOutputTextArea("Possible Designations :\n");
                 
                 Set<String> designations = new HashSet<>();
                 Set<String> phoneNumbers = new HashSet<>();
@@ -91,27 +91,27 @@ public class Actions {
                 }
                 
                 for(String designation : designations){
-                    OutputDisplayer2.setTextInloadingOutputTextArea("\t"+designation+"\n");
+                    OutputDisplayer.setTextInloadingOutputTextArea("\t"+designation+"\n");
                     
                     dBActions.insertDesignationDetails(designation, leadID);
                 }
-                OutputDisplayer2.setTextInloadingOutputTextArea("********************************************\n");
+                OutputDisplayer.setTextInloadingOutputTextArea("********************************************\n");
 
-                OutputDisplayer2.setTextInloadingOutputTextArea("Possible Phone Numbers :\n");
+                OutputDisplayer.setTextInloadingOutputTextArea("Possible Phone Numbers :\n");
 
                 String searchKeyForPhone = name + " Contact Phone Call";
                 calllinks = googleSearch.getGoogleSearchLinks(searchKeyForPhone, Configurations.googleURLPhoneResultEnd);
                 phoneNumbers.addAll(webCrawl.crawlWeb(calllinks, Configurations.REGEX_PHONE, Configurations.linkDepthForPhone, false));
                
                 for (String phoneNumber : phoneNumbers) {
-                   OutputDisplayer2.setTextInloadingOutputTextArea("\t"+phoneNumber+"\n");
+                   OutputDisplayer.setTextInloadingOutputTextArea("\t"+phoneNumber+"\n");
                     
                    dBActions.insertContactNoDetails(phoneNumber, leadID);
                 }
                 
-                OutputDisplayer2.setTextInloadingOutputTextArea("********************************************\n");
+                OutputDisplayer.setTextInloadingOutputTextArea("********************************************\n");
                 
-                OutputDisplayer2.setTextInloadingOutputTextArea("Possible Email Address :\n");
+                OutputDisplayer.setTextInloadingOutputTextArea("Possible Email Address :\n");
 
                 String searchKeyForEmail = name + " Contact Email";
                 emaillinks = googleSearch.getGoogleSearchLinks(searchKeyForEmail, Configurations.googleURLEmailResultEnd);
@@ -124,15 +124,15 @@ public class Actions {
                     if (emailAddress.contains(firstName.toLowerCase()) || emailAddress.contains(secondName.toLowerCase()) || emailAddress.contains(firstName) || emailAddress.contains(secondName)) {
                         dBActions.insertEmailAddressDetails(emailAddress, leadID);
                         
-                        OutputDisplayer2.setTextInloadingOutputTextArea("\t"+emailAddress+"\n");
+                        OutputDisplayer.setTextInloadingOutputTextArea("\t"+emailAddress+"\n");
                     }
                 }
             }
 
             Calendar end = Calendar.getInstance();
-            OutputDisplayer2.setTextInloadingOutputTextArea("##############################################\n");
+            OutputDisplayer.setTextInloadingOutputTextArea("##############################################\n");
             
-            OutputDisplayer2.setTextInloadingOutputTextArea("Process End @ "+end.getTime()+"\n");
+            OutputDisplayer.setTextInloadingOutputTextArea("Process End @ "+end.getTime()+"\n");
             
             long duration = end.getTimeInMillis() - start.getTimeInMillis();
             String durationString = String.format("%02dhh:%02dmm:%02dss",
@@ -141,8 +141,8 @@ public class Actions {
                     - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(duration)),
                     TimeUnit.MILLISECONDS.toSeconds(duration)
                     - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
-            OutputDisplayer2.setTextInloadingOutputTextArea("Duration : "+durationString+"\n");
-            OutputDisplayer2.setTextInloadingOutputTextArea("##############################################\n");
+            OutputDisplayer.setTextInloadingOutputTextArea("Duration : "+durationString+"\n");
+            OutputDisplayer.setTextInloadingOutputTextArea("##############################################\n");
 
         } catch (IOException ex) {
             System.err.println(ex.getMessage());

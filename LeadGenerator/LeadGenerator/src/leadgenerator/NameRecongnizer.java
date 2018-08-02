@@ -81,7 +81,7 @@ public class NameRecongnizer {
                     }
                 }
 
-                OutputDisplayer2.setTextInloadingProgressTextArea(word + ":" + category);
+                OutputDisplayer.setTextInloadingProgressTextArea(word + ":" + category);
             }
         }
     }
