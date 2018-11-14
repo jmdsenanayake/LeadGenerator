@@ -236,6 +236,8 @@ public class OutputDisplayer extends javax.swing.JFrame {
         String searchKeyPhrase = this.searchKey.getText();
         int leadsSearchDepthVal = leadsSearchDepth.getSelectedIndex() + 1;
         int contactsSearchDepthVal = contactDepthSearch.getSelectedIndex() + 1;
+        loadingProgressTextArea.setText("");
+        loadingOutputTextArea.setText("");
         
         if (!searchKeyPhrase.isEmpty()) {
             setVisibilityOfContent(true);
@@ -274,6 +276,7 @@ public class OutputDisplayer extends javax.swing.JFrame {
                     leadsSearchDepth.setEnabled(true);
                     contactDepthSearch.setEnabled(true);
                     searchKey.setEnabled(true);
+                    jButton1.setEnabled(true);
                 }
             };
             t.start();
