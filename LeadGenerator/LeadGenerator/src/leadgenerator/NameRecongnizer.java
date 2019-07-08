@@ -37,11 +37,11 @@ public class NameRecongnizer {
         //String model = "classifiers\\english.conll.4class.distsim.crf.ser.gz";
         String model = "classifiers\\english.nowiki.3class.distsim.crf.ser.gz";
         String serializedClassifier = model;
-        CRFClassifier<CoreLabel> classifier = CRFClassifier.getClassifierNoExceptions(serializedClassifier);
+            CRFClassifier<CoreLabel> classifier = CRFClassifier.getClassifierNoExceptions(serializedClassifier);
 
-        for (String successWord : matchedPatterns) {
-            identifyNER(successWord, classifier);
-        }
+            for (String successWord : matchedPatterns) {
+                identifyNER(successWord, classifier);
+            }
         return names;
 
     }
@@ -66,16 +66,16 @@ public class NameRecongnizer {
                         map.put(category, temp);
                     }
                     if (category.equalsIgnoreCase("PERSON")) {
-                        String[] twoNames=text.split(" ");
-                        int searchResultName1=0;
-                      //  int searchResultName2=0;
-                        
-                        searchResultName1=Arrays.binarySearch(skippedWords, twoNames[0].toLowerCase());
-                       // searchResultName2=Arrays.binarySearch(skippedWords, twoNames[1].toLowerCase());
-                        
+                        String[] twoNames = text.split(" ");
+                        int searchResultName1 = 0;
+                        //  int searchResultName2=0;
+
+                        searchResultName1 = Arrays.binarySearch(skippedWords, twoNames[0].toLowerCase());
+                        // searchResultName2=Arrays.binarySearch(skippedWords, twoNames[1].toLowerCase());
+
 //                        if (searchResultName1 < 0 && searchResultName2<0 ) {
                         if (searchResultName1 < 0) {
-                            
+
                             names.add(text);
                         }
                     }
